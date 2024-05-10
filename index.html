@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motorcycle Parts Management</title>
+    <style>
+       body {
+            font-family: 'Times New Roman', Times, serif;
+            background-image: url(R.jpeg);
+            margin: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            grid-gap: 10px; 
+        }
+
+        h2 {
+            padding: 20px;
+            text-align: center;
+            color: #ddd;
+            background-color: rgba(51, 51, 51, 0.94); 
+            border-radius: 10px;
+            margin-bottom: 20px;
+            grid-column: span 2; 
+        }
+
+        form {
+            background-color: rgba(51, 51, 51, 0.94); 
+            padding: 20px;
+            border-radius: 10px;
+            width: calc(100% - 20px); 
+            max-width: 300px; 
+            margin-left: 50px;
+            margin-right: 20px;
+        }
+        label{
+            color: #ddd;
+        }
+
+        table {
+            width: calc(100% - 20px); 
+            max-width: 100%; 
+            margin-right: 200px;
+            border-collapse: collapse;
+        }
+
+        input, button {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: calc(100% - 20px); 
+            box-sizing: border-box; 
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: #333333ec;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            color: #ddd;
+        }
+
+        th {
+            background-color: rgba(128, 128, 128, 0.808);
+        }
+
+        
+        #partTable {
+            margin-top: 20px;
+            margin-bottom: 20px;
+          
+        }
+
+        
+        @media (max-width: 600px) {
+            body {
+                grid-template-columns: 1fr; 
+            }
+
+            h2 {
+                grid-column: span 1;
+            }
+
+            form, table {
+                max-width: 100%; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Motorcycle Parts Management</h2>
+
+<form id="sheetdb-form" action="" method="POST">
+    <label for="Code">Code:</label>
+    <input type="text" id="Code" name="Code">
+    <label for="Name">Name:</label>
+    <input type="text" id="Name" name="Name" placeholder="Name"><br><br>
+    <label for="Price">Price:</label>
+    <input type="text" id="Price" name="Price" placeholder="Price"><br><br>
+    <label for="Description">Description:</label>
+    <input type="text" id="Description" name="Description" placeholder="Description"><br><br>
+    <label for="Compatibility">Compatibility:</label>
+    <input type="text" id="Compatibility" name="Compatibility" placeholder="Compatibility"><br><br>
+    <button type="button" onclick="addPart()">Add Part</button>
+    <button id="nextButton" type="button" onclick="redirectToPage()">Search</button>
+    <button id="generate-report" type="button" onclick="generateReport()">Generate Report</button>
+
+</form>
+
+<table id="partTable">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Compatibility</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+       
+    </tbody>
+</table>
+
+<script>
+    function addPart() {
+        var formData = new FormData(document.getElementById('sheetdb-form'));
+
+        fetch('https://sheetdb.io/api/v1/3w0fo48fftapl', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            addDataToTable(formData); 
+            clearForm(); 
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function addDataToTable(formData) {
+        var table = document.getElementById('partTable').getElementsByTagName('tbody')[0];
+        var newRow = table.insertRow();
+
+        for (var pair of formData.entries()) {
+            var cell = newRow.insertCell();
+            cell.textContent = pair[1];
+        }
+
+       
+        var actionCell = newRow.insertCell();
+        var deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", function() {
+           
+            table.deleteRow(newRow.rowIndex);
+        });
+        actionCell.appendChild(deleteButton);
+    }
+
+    function clearForm() {
+        document.getElementById("sheetdb-form").reset();
+    }
+
+    function redirectToPage() {
+        window.location.href = "Duha.html";
+    }
+
+    function generateReport() {
+        var formData = new FormData(document.getElementById('sheetdb-form'));
+        var url = 'er.html?';
+
+       
+        for (var pair of formData.entries()) {
+            url += encodeURIComponent(pair[0]) + '=' + encodeURIComponent(pair[1]) + '&';
+        }
+
+        
+        window.location.href = url;
+    }
+</script>
+
+</body>
+</html>

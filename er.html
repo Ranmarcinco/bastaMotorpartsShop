@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motorcycle Parts Management System</title>
+    <style>
+         @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+        
+        body {
+            font-family: 'Arial, sans-serif';
+            font-size: 14px;
+            margin: 0;
+            box-sizing: border-box; 
+            background-color: #ccc; 
+            width: 21cm; 
+            height: 29.7cm; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 250px;
+            position: relative; 
+        }
+        .logo-container {
+            text-align: left;
+            margin-bottom: 20px;
+            margin-left: 30px;
+            margin-top: 50px;
+        }
+
+        .container {
+            background-color: #fff; 
+            border: 1px solid #000; 
+            padding: 20px; 
+            width: 19cm; 
+            height: 27.7cm; 
+            overflow: hidden; 
+            position: relative; 
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 50px;
+            border-collapse: collapse;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        th, td {
+            border: none;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color:none;
+        }
+
+        .overview {
+            margin-top: 100px;
+            margin-bottom: 20px;
+            font-style: Arial, sans-serif;
+            font-size: 20px;
+            text-align: center;
+            margin-left: 150px;
+        }
+
+      
+        .no-lines td {
+            border: none;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-container">
+        <img src="received_441106961795896.png" alt="Logo" class="logo">
+    </div>
+
+    <h1>Motorcycle Parts Management System</h1>
+
+    
+    <table class="no-lines">
+        <tbody>
+            <tr>
+                <td>Code: <span id="Code"></span></td>
+                <td>Name: <span id="Name"></span></td>
+                <td>Price: <span id="Price"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <table class="no-lines">
+        <tbody>
+            <tr>
+                <td>Description: <span id="Description"></span></td>
+                </tr>
+                <tr>
+                <td>Compatibility: <span id="Compatibility"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    
+    function populateFields() {
+        
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        
+        document.getElementById('Code').innerText = getUrlParameter('Code');
+        document.getElementById('Name').innerText = getUrlParameter('Name');
+        document.getElementById('Price').innerText = getUrlParameter('Price');
+
+        
+         
+        document.getElementById('Description').innerText = getUrlParameter('Description');
+        document.getElementById('Compatibility').innerText = getUrlParameter('Compatibility');
+
+    }
+
+   
+    function generateReport() {
+       
+        document.getElementById('downloadButton').href = 'generated_report.pdf';
+    }
+
+   
+    window.onload = populateFields;
+</script>
+
+</body>
+</html>
